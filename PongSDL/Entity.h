@@ -1,21 +1,25 @@
 #pragma once
 #include "SDL.h"
-using Point_t = SDL_Point;
+#include "SDL_image.h"
+using Point_t = SDL_Point*;
 using Texture = SDL_Texture*;
-using RectBound = SDL_Rect;
+using RectBound = SDL_Rect*;
 class Entity
 {
 public:
+	Entity();
 	//Генерация текстуры и ограничивающего прямоугольника
 	Entity(const char * fileText);
 	//Конструктор перемещения
 	//Оператор присваивания перемещением
 	//Менять pos и rectBound
 	void move(Point_t dr, Point_t direct);
+
 	//Что-то что позволяет получать информацию о объекте(длина ширина) - для коллизий
-	const RectBound& getRectBound();
+	const RectBound& getRectBound()const;
+	const Texture& getTexture() const;
 	~Entity();
-private:
+protected:
 	Point_t direct;
 	Point_t pos;// середина прямоугольника, но тогда дополнительные расходы на преобзование?
 	Point_t pos_LU;// Левы верхний угол для SDL// Оптимизацияs

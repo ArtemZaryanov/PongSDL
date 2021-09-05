@@ -3,21 +3,54 @@
 
 #include <iostream>
 #include <SDL.h>
+#include "RenderSDL.h"
+#include "Entity.h"
+#include "Types.h"
+
 int main(int argc, char* args[])
 {
     std::cout << argc << std::endl;
     std::cout << *args << std::endl;
-    std::cout<<SDL_Init(SDL_INIT_EVERYTHING);
+    Settings settings;
+    Entity paddle1;
+    Entity paddle2;
+    Entity ball;
+    settings.screenHeight = 480;
+    settings.screenWidth = 640;
+    RenderSDL renderSDL(settings);
+    SDL_Event e;
+    bool quit = false;
+    while (!quit)
+    {
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+            switch (e.key.keysym.sym)
+            {
+            case SDLK_w: quit = true; 
+                break;
+            case SDLK_s: quit = true;
+                break;
+            case SDLK_UP: quit = true;
+                break;
+            case SDLK_DOWN: quit = true;
+                break;
+            default:
+                break;
+            }
+        }
+        //Create space
+        /*renderSDL.Draw(paddle1);
+        renderSDL.Draw(paddle2);
+        renderSDL.Draw(ball);*/
+        //Collision
+        //Control
+        // 
+        //Update GUI
+    }
     return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

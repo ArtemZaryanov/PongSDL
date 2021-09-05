@@ -1,15 +1,19 @@
 #include "RenderSDL.h"
 RenderSDL::RenderSDL(const Settings& settings)
 {
-    isInit = InitSDL(settings.screenWidth, settings.screenHeight);
-    if (!isInit)
+    if (!InitSDL(settings.screenWidth, settings.screenHeight))
     {
-        std::cout << "Render: Init Error" << std::endl;
+        DestroySDL();
+        throw std::runtime_error("Render: Init Error");
     }
 }
 void RenderSDL::Draw(const Entity& entity)
 {
-    ;
+    SDL_SetRenderDrawColor(ren, 0, 255, 255, 255);
+    SDL_RenderClear(ren);
+    //SDL_RenderPresent(ren);
+    SDL_RenderCopy(ren, entity.getTexture(), nullptr, entity.getRectBound());
+    //SDL_Delay(5000);
 }
 bool RenderSDL::InitSDL(const int screenWidth, const int screenHeight)
 {
@@ -40,11 +44,6 @@ bool RenderSDL::InitSDL(const int screenWidth, const int screenHeight)
 }
 //bool RenderSDL::Draw(const std::vector<UnitInfo>& unitData, const char* fileTex, const Settings& settings)
 //{
-//    if (isInit != true)
-//    {
-//        DestroySDL();
-//        return false;
-//    }
 //    tex = IMG_LoadTexture(ren, fileTex);
 //    if (tex == nullptr) {
 //        std::cout << "SDL:CreateTextureFromSurfaceError: " << SDL_GetError() << std::endl;
@@ -85,9 +84,6 @@ void  RenderSDL::DestroySDL()
 
     SDL_DestroyRenderer(ren);
     ren = nullptr;
-
-    SDL_DestroyTexture(tex);
-    tex = nullptr;
 
     SDL_Quit();
     IMG_Quit();

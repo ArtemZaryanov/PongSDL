@@ -151,12 +151,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="PongSDL.cpp" />
     <ClCompile Include="RenderSDL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Paddle.h" />
     <ClInclude Include="RenderSDL.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
