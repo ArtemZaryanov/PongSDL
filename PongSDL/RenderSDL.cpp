@@ -1,7 +1,8 @@
 #include "RenderSDL.h"
-RenderSDL::RenderSDL(const Settings& settings)
+RenderSDL::RenderSDL(const Settings& settings):
+    screenWidth(settings.screenWidth), screenHeight(settings.screenHeight)
 {
-    if (!InitSDL(settings.screenWidth, settings.screenHeight))
+    if (!InitSDL(screenWidth,screenHeight))
     {
         DestroySDL();
         throw std::runtime_error("Render: Init Error");
@@ -11,9 +12,26 @@ void RenderSDL::Draw(const Entity& entity)
 {
     SDL_SetRenderDrawColor(ren, 0, 255, 255, 255);
     SDL_RenderClear(ren);
-    //SDL_RenderPresent(ren);
-    SDL_RenderCopy(ren, entity.getTexture(), nullptr, entity.getRectBound());
+    SDL_RenderPresent(ren);
+    SDL_SetRenderDrawColor(ren, 0, 32, 255, 255);
+    SDL_RenderCopy(ren, textures[entity.getType()], nullptr, &entity.getRectBound());
     //SDL_Delay(5000);
+}
+bool RenderSDL::LoadTexture(const std::vector<const char*> texturesPath)
+{
+    SDL_Texture* tex;
+    for (auto path : texturesPath)
+    {
+        tex = IMG_LoadTexture(ren, path);
+        if (tex == nullptr) {
+                    std::cout << "SDL:LoadTextureError: " << SDL_GetError() <<" "<<path << std::endl;
+                    return false;
+            }
+        textures.push_back(tex);
+        SDL_DestroyTexture(tex);
+    }
+    tex = nullptr;
+    return true;
 }
 bool RenderSDL::InitSDL(const int screenWidth, const int screenHeight)
 {
@@ -40,6 +58,7 @@ bool RenderSDL::InitSDL(const int screenWidth, const int screenHeight)
         std::cout << "SDL:CreateRendererError: " << SDL_GetError() << std::endl;
         success = false;
     }
+
     return success;
 }
 //bool RenderSDL::Draw(const std::vector<UnitInfo>& unitData, const char* fileTex, const Settings& settings)
@@ -84,7 +103,10 @@ void  RenderSDL::DestroySDL()
 
     SDL_DestroyRenderer(ren);
     ren = nullptr;
-
+    for (auto texture:textures)
+    {
+        SDL_DestroyTexture(texture);
+    }
     SDL_Quit();
     IMG_Quit();
 }
