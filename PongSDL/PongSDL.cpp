@@ -11,9 +11,7 @@
 
 int main(int argc, char* args[])
 {
-    SDL_bool SDL_IntersectRect(const SDL_Rect * A,
-        const SDL_Rect * B,
-        SDL_Rect * result);
+    
     std::cout << argc << std::endl;
     std::cout << *args << std::endl;
     Settings settings;
@@ -69,6 +67,7 @@ int main(int argc, char* args[])
             renderSDL.Draw(paddle1);
             renderSDL.Draw(paddle2);
             renderSDL.Draw(ball);
+            renderSDL.UpdateRen();
             //Collision
             //Control
             // 

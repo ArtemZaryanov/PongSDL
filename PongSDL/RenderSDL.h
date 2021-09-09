@@ -15,13 +15,14 @@ private:
 	std::vector<SDL_Texture*> textures;
 	SDL_Window* win;
 	SDL_Renderer* ren;
-	bool InitSDL(const int screenWidth, const int screenHeight);
+	bool InitSDL();
 	RenderSDL() = delete;
 	//bool InitSDL(SDL_Window*& win, SDL_Renderer*& ren);
 public:
 	RenderSDL(const Settings& settings);
 	void Draw(const Entity& entity);
 	bool LoadTexture(const std::vector<const char*> texturesPath);
+	void UpdateRen();
 	//Destructor
 	void DestroySDL();
 	//Мировые координаты должны преобразоваться в экранные

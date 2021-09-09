@@ -2,7 +2,7 @@
 RenderSDL::RenderSDL(const Settings& settings):
     screenWidth(settings.screenWidth), screenHeight(settings.screenHeight)
 {
-    if (!InitSDL(screenWidth,screenHeight))
+    if (!InitSDL())
     {
         DestroySDL();
         throw std::runtime_error("Render: Init Error");
@@ -10,9 +10,6 @@ RenderSDL::RenderSDL(const Settings& settings):
 }
 void RenderSDL::Draw(const Entity& entity)
 {
-    SDL_SetRenderDrawColor(ren, 0, 255, 255, 255);
-    SDL_RenderClear(ren);
-    SDL_RenderPresent(ren);
     SDL_SetRenderDrawColor(ren, 0, 32, 255, 255);
     SDL_RenderCopy(ren, textures[entity.getType()], nullptr, &entity.getRectBound());
     //SDL_Delay(5000);
@@ -28,12 +25,16 @@ bool RenderSDL::LoadTexture(const std::vector<const char*> texturesPath)
                     return false;
             }
         textures.push_back(tex);
-        SDL_DestroyTexture(tex);
+        //SDL_DestroyTexture(tex);
     }
     tex = nullptr;
     return true;
 }
-bool RenderSDL::InitSDL(const int screenWidth, const int screenHeight)
+void RenderSDL::UpdateRen()
+{
+    SDL_RenderPresent(ren);
+}
+bool RenderSDL::InitSDL()
 {
     bool success = true;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -58,7 +59,9 @@ bool RenderSDL::InitSDL(const int screenWidth, const int screenHeight)
         std::cout << "SDL:CreateRendererError: " << SDL_GetError() << std::endl;
         success = false;
     }
-
+    SDL_SetRenderDrawColor(ren, 0, 255, 255, 255);
+    SDL_RenderClear(ren);
+    SDL_RenderPresent(ren);
     return success;
 }
 //bool RenderSDL::Draw(const std::vector<UnitInfo>& unitData, const char* fileTex, const Settings& settings)
