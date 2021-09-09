@@ -7,6 +7,7 @@
 #include "RenderSDL.h"
 #include "Entity.h"
 #include "Paddle.h"
+#include "Ball.h"
 #include "Types.h"
 
 int main(int argc, char* args[])
@@ -21,7 +22,7 @@ int main(int argc, char* args[])
 
     Paddle paddle1(0,paddle1Rect);
     Paddle paddle2(0,paddle2Rect);
-    Entity ball(1, ballRect);
+    Ball ball(1, ballRect);
     settings.screenHeight = 480;
     settings.screenWidth = 640;
     const char* paddleTextPath = "res/paddle.png";
@@ -63,16 +64,16 @@ int main(int argc, char* args[])
             default:
                 break;
             }
-            //Create space
-            renderSDL.Draw(paddle1);
-            renderSDL.Draw(paddle2);
-            renderSDL.Draw(ball);
-            renderSDL.UpdateRen();
-            //Collision
-            //Control
-            // 
-            //Update GUI
+        
         }
+        ball.move();
+        //Create space
+        renderSDL.Draw(paddle1);
+        renderSDL.Draw(paddle2);
+        renderSDL.Draw(ball);
+        renderSDL.UpdateRen();
+        //Collision
+        //Update GUI
     }
     return 0;
 }

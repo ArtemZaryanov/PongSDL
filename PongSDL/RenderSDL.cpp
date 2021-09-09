@@ -11,7 +11,7 @@ RenderSDL::RenderSDL(const Settings& settings):
 void RenderSDL::Draw(const Entity& entity)
 {
     SDL_SetRenderDrawColor(ren, 0, 32, 255, 255);
-    SDL_RenderCopy(ren, textures[entity.getType()], nullptr, &entity.getRectBound());
+    SDL_RenderCopyF(ren, textures[entity.getType()], nullptr, &entity.getRectBound());
     //SDL_Delay(5000);
 }
 bool RenderSDL::LoadTexture(const std::vector<const char*> texturesPath)
@@ -33,6 +33,7 @@ bool RenderSDL::LoadTexture(const std::vector<const char*> texturesPath)
 void RenderSDL::UpdateRen()
 {
     SDL_RenderPresent(ren);
+    SDL_RenderClear(ren);
 }
 bool RenderSDL::InitSDL()
 {
@@ -48,7 +49,7 @@ bool RenderSDL::InitSDL()
         return false;
     }
 
-    win = SDL_CreateWindow("Window", 100, 100, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
+    win = SDL_CreateWindow("PongSDL", 100, 100, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     if (win == nullptr)
     {
         std::cout << "SDL:CreateWindowError:" << SDL_GetError() << std::endl;

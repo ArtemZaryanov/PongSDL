@@ -13,10 +13,12 @@ Paddle::Paddle(const int type, const RectBound& rectBound) :Entity(type,rectBoun
 
 void Paddle::moveUp()
 {
+	move(dr, up_direct);
 }
 
 void Paddle::moveDown()
 {
+	move(dr, down_direct);
 }
 
 Paddle::~Paddle()

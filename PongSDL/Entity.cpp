@@ -3,20 +3,24 @@
 Entity::Entity(const int type, const RectBound& rectBound):type(type)
 {
 	this->rectBound = rectBound;
-	this->pos_LU.x = rectBound.x;
-	this->pos_LU.y = rectBound.y;
-	this->pos.x = (rectBound.x + rectBound.w) / 2;
-	this->pos.y = (rectBound.y + rectBound.h) / 2;
-	this->direct.x =0;
-	this->direct.y = 0;
+	this->direct.x =0.0;
+	this->direct.y =0.0;
+	Update();
 
 }
-
-void Entity::move(const Point_t& dr, const Point_t& dir)
+void Entity::move(Point_t&& dr, FPoint_t&& dir)
 {
-	this->direct = dir;
-	this->rectBound.x += dr.x * this->direct.x;
-	this->rectBound.y += dr.y * this->direct.y;
+	direct = dir;
+	rectBound.x += dr.x * this->direct.x;
+	rectBound.y += dr.y * this->direct.y;
+	Update();
+}
+void Entity::move(const Point_t& dr, const FPoint_t& dir)
+{
+	direct = dir;
+	rectBound.x += dr.x * this->direct.x;
+	rectBound.y += dr.y * this->direct.y;
+	Update();
 }
 
 const RectBound& Entity::getRectBound() const
@@ -31,4 +35,12 @@ int Entity::getType() const
 
 Entity::~Entity()
 {
+}
+
+void Entity::Update()
+{
+	pos_LU.x = rectBound.x;
+	pos_LU.y = rectBound.y;
+	pos.x = (rectBound.x + rectBound.w) / 2;
+	pos.y = (rectBound.y + rectBound.h) / 2;
 }
