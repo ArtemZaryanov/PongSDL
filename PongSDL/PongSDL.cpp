@@ -13,8 +13,8 @@
 int main(int argc, char* args[])
 {
     
-    std::cout << argc << std::endl;
-    std::cout << *args << std::endl;
+    std::cout << argc << '\n';
+    std::cout << *args << '\n';
     Settings settings;
     RectBound paddle1Rect{ 60,60,70,70 };    
     RectBound paddle2Rect{300,300,70,70};
@@ -41,25 +41,25 @@ int main(int argc, char* args[])
             if (e.type == SDL_QUIT)
             {
                 quit = true;
-                std::cout << "quit" << std::endl;
+                std::cout << "quit" << '\n';
             }
             switch (e.key.keysym.sym)
             {
             case SDLK_w:
                 paddle1.moveUp();
-                std::cout << "paddle1_Up" << std::endl;
+                std::cout << "paddle1_Up" << '\n';
                 break;
             case SDLK_s: 
                 paddle1.moveDown();
-                std::cout << "paddle1_Down" << std::endl;
+                std::cout << "paddle1_Down" << '\n';
                 break;
             case SDLK_UP:
                 paddle2.moveUp();
-                std::cout << "paddle2_Up" << std::endl; 
+                std::cout << "paddle2_Up" << '\n'; 
                 break;
             case SDLK_DOWN: 
                 paddle2.moveDown(); 
-                std::cout <<"paddle2_Down" << std::endl;
+                std::cout <<"paddle2_Down" << '\n';
                 break;
             default:
                 break;
